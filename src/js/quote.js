@@ -52,25 +52,30 @@ function getRandomInt(min, max) {
 
 // --- r/quotes ---
 
-// show a random quote from the top 6 hot posts on r/quotes.
+// show a random quote from the top 3 hot posts on r/quotes.
 // cache is broken once an hour
 
 const qodURL1 =
   'https://www.reddit.com/r/quotes/.json?v=' +
-  new Date().toISOString().substr(0, 13);
+  new Date().toISOString().slice(0, 13);
 
 fetch(qodURL1).then(r => r.json()).then((resp) => {
   const $quote = document.querySelector('#quote-0');
-  // const randomIndex = Math.ceil(Math.random() * 6);
   const filteredQuotes = resp.data.children.filter((quote) => {
     return !quote.data.stickied;
   });
   const quoteData = filteredQuotes[getRandomInt(0, 3)].data;
-  $quote.innerHTML = [
-    `<cite>u/${quoteData.author}</cite>`,
-    `<p><a href="${quoteData.url}">`,
-    smartQuotes(hyphenToDash(quoteData.title)),
-    `</a></p>`,
-  ].join('');
+
+  const cite = document.createElement('cite');
+  cite.textContent = `u/${quoteData.author}`;
+
+  const a = document.createElement('a');
+  a.href = quoteData.url;
+  a.textContent = smartQuotes(hyphenToDash(quoteData.title));
+
+  const p = document.createElement('p');
+  p.appendChild(a);
+
+  $quote.replaceChildren(cite, p);
   setFontSizes($quote);
 });
