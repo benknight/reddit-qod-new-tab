@@ -11,6 +11,6 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "manifest_version": 2,
-  "permissions": ["http://www.reddit.com/"]
+  "manifest_version": 3,
+  "host_permissions": ["https://www.reddit.com/*"]
 }
