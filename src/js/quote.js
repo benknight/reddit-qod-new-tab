@@ -59,7 +59,7 @@ const qodURL1 =
   'https://www.reddit.com/r/quotes/.json?v=' +
   new Date().toISOString().substr(0, 13);
 
-jQuery.get(qodURL1, (resp) => {
+fetch(qodURL1).then(r => r.json()).then((resp) => {
   const $quote = document.querySelector('#quote-0');
   // const randomIndex = Math.ceil(Math.random() * 6);
   const filteredQuotes = resp.data.children.filter((quote) => {
